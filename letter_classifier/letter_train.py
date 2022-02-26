@@ -6,7 +6,8 @@ from sklearn.preprocessing import OneHotEncoder
 
 # https://www.kaggle.com/sachinpatel21/az-handwritten-alphabets-in-csv-format/code
 
-df = pd.read_csv(r"C:\Users\hi2kh\OneDrive\Desktop\Python\Letter Recognition\letter_data.csv", names=[str(i) for i in range(785)])
+df = pd.read_csv(r"C:\Users\hi2kh\OneDrive\Documents\GitHub\Machine-Learning\letter_classifier\letter_data.csv",
+                 names=[str(i) for i in range(785)])
 
 x_train, x_test, y_train, y_test = train_test_split(df.drop(columns="0"), df["0"], test_size=0.16,
                                                     random_state=19, stratify=df["0"])
