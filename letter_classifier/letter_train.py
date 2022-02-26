@@ -48,12 +48,12 @@ outputs = tf.keras.layers.Dense(26, activation="softmax")(x)
 
 
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
-callback = tf.keras.callbacks.EarlyStopping(monitor="val_loss", patience=5)  # early stopping -> monitors val loss
+callback = tf.keras.callbacks.EarlyStopping(monitor="val_loss", patience=3)  # early stopping -> monitors val loss
 
 model = tf.keras.Model(inputs=inputs, outputs=outputs, name="letter_model")
 model.summary()
 model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.00001), loss=tf.keras.losses.CategoricalCrossentropy(), metrics=['accuracy'])
-model.fit(x=x_train, y=y_train, batch_size=64, epochs=100, validation_data=(x_test, y_test), callbacks=[callback])
+model.fit(x=x_train, y=y_train, batch_size=64, epochs=76, validation_data=(x_test, y_test), callbacks=[callback])
 model.save("letter_model")
 
 
