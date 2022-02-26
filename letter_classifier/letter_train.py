@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 
+# https://www.kaggle.com/sachinpatel21/az-handwritten-alphabets-in-csv-format/code
 
 df = pd.read_csv(r"C:\Users\hi2kh\OneDrive\Desktop\Python\Letter Recognition\letter_data.csv", names=[str(i) for i in range(785)])
 
