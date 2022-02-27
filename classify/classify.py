@@ -10,7 +10,7 @@ letter_df = pd.read_csv(r"C:\Users\hi2kh\OneDrive\Documents\GitHub\Machine-Learn
 
 letter_df['0'] = 0  # assign label of letter_df to 0
 
-shape_df = pd.read_csv(r"C:\Users\hi2kh\OneDrive\Documents\GitHub\Machine-Learning\k_means\shape_data.csv",
+shape_df = pd.read_csv(r"C:\Users\hi2kh\OneDrive\Documents\GitHub\Machine-Learning\shape_data\shape_data.csv",
                        names=[str(i) for i in range(785)])
 
 shape_df['0'] = 1  # assign label of shape_df to 1

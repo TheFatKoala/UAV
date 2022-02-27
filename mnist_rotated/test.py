@@ -25,7 +25,7 @@ correct = 0
 total = 0
 for i in range(42000):
     print(i)
-    if output[i][0] - 1 < test_y[i][0] < output[i][0] + 1:
+    if output[i][0] * 360 - 1 < test_y[i][0] * 360 < output[i][0] * 360 + 1:
         correct += 1
     total += 1
 
