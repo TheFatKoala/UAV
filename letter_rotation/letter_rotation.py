@@ -49,22 +49,19 @@ y_train = np.reshape(y_train, (-1, 1)) / 360
 y_test = np.reshape(y_test, (-1, 1)) / 360
 
 inputs = tf.keras.Input(shape=(28, 28, 1))
-x = tf.keras.layers.Conv2D(3, 3, activation="relu")(inputs)
+x = tf.keras.layers.Normalization()(inputs)
+x = tf.keras.layers.Conv2D(3, 3, activation="relu", bias_initializer=tf.keras.initializers.Constant(0.1))(x)
 x = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(x)
 x = tf.keras.layers.Normalization()(x)
-x = tf.keras.layers.Conv2D(3, 3, activation="relu")(x)
+x = tf.keras.layers.Conv2D(3, 3, activation="relu", bias_initializer=tf.keras.initializers.Constant(0.1))(x)
 x = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(x)
-x = tf.keras.layers.Normalization()(x)
-x = tf.keras.layers.Conv2D(3, 3, activation="relu")(x)
-x = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(x)
-x = tf.keras.layers.Normalization()(x)
 x = tf.keras.layers.Flatten()(x)
 x = tf.keras.layers.Normalization()(x)
-x = tf.keras.layers.Dense(363, activation="relu")(x)
+x = tf.keras.layers.Dense(363, activation="relu", bias_initializer=tf.keras.initializers.Constant(0.1))(x)
 x = tf.keras.layers.Normalization()(x)
-x = tf.keras.layers.Dense(100, activation="relu")(x)
+x = tf.keras.layers.Dense(100, activation="relu", bias_initializer=tf.keras.initializers.Constant(0.1))(x)
 x = tf.keras.layers.Normalization()(x)
-outputs = tf.keras.layers.Dense(1, activation="tanh")(x)
+outputs = tf.keras.layers.Dense(1, activation="tanh", bias_initializer=tf.keras.initializers.Constant(0.1))(x)
 
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 #callback = tf.keras.callbacks.EarlyStopping(monitor="val_loss", patience=5, min_delta=0.01)  # early stopping -> monitors val loss
@@ -76,8 +73,8 @@ callback = tf.keras.callbacks.ModelCheckpoint(
     save_best_only=True)
 model = tf.keras.Model(inputs=inputs, outputs=outputs, name="letter_rotation")
 model.summary()
-model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.001), loss=tf.keras.losses.MeanSquaredError(),
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.1), loss=tf.keras.losses.MeanSquaredError(),
               metrics=['accuracy'])
-model.fit(x=x_train, y=y_train, batch_size=64, epochs=500, validation_data=(x_test, y_test), callbacks=[callback])
+model.fit(x=x_train, y=y_train, batch_size=128, epochs=500, validation_data=(x_test, y_test), callbacks=[callback])
 #model.save("letter_rotation")
 

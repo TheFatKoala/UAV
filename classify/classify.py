@@ -53,7 +53,7 @@ x = tf.keras.layers.Normalization()(x)
 outputs = tf.keras.layers.Dense(2, activation="softmax")(x)
 
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
-callback = tf.keras.callbacks.EarlyStopping(monitor="val_accuracy", patience=2, min_delta=0.05)  # early stopping -> monitors val loss
+callback = tf.keras.callbacks.EarlyStopping(monitor="val_accuracy", patience=5, min_delta=0.05)  # early stopping -> monitors val loss
 
 model = tf.keras.Model(inputs=inputs, outputs=outputs, name="classify_model")
 model.summary()
