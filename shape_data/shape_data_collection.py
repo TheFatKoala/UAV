@@ -24,9 +24,10 @@ labels = ["circle", "semicircle", "quartercircle", "triangle",
 for i, image in enumerate(os.listdir(folder_dir)):
     img = Image.open(fr"C:\Users\hi2kh\OneDrive\Documents\GitHub\Machine-Learning\shape_data\shapes\{image}")
     img = ImageOps.grayscale(img)
-    img = img.resize((28, 28))
+    img = img.resize((98, 98))
     curr_image = img.copy()
-    for _ in range(10000):  # amount of samples
+    for _ in range(1000):  # amount of samples
+        print(_)
         rotated_image = ndimage.rotate(curr_image, random.random()*360, reshape=False)
         rotated_image = ndimage.zoom(rotated_image, 1 + 0.1 * random.random(), mode='constant')
         #src_points = np.float32([[0, 0], [0, 28],
@@ -36,8 +37,8 @@ for i, image in enumerate(os.listdir(folder_dir)):
         #warp_transform = cv2.getPerspectiveTransform(src_points, warped_points)
         #warped_img = cv2.warpPerspective(rotated_image, warp_transform, (28, 28))
         #warped_img = cv2.resize(warped_img, (28, 28))
-        rotated_image = cv2.resize(rotated_image, (28, 28))
-        #cv2.imshow('image', warped_img)
+        rotated_image = cv2.resize(rotated_image, (98, 98))
+        #cv2.imshow('image', rotated_image)
         #cv2.waitKey()
         #cv2.destroyAllWindows()
         #if image.endswith(".png"):  # check if the image ends with png

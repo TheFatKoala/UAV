@@ -7,12 +7,12 @@ def extract(image_path, letter_color, shape_color) -> np.array:  # color = [R, G
     # returns (letter image, shape image) as tuple, as black and white (0, 255)
     letter_image = None
     shape_image = None
-    image = cv2.imread(fr'{image_path}')
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     lower = np.array(letter_color, dtype="uint8") - 10
     upper = np.array(letter_color, dtype="uint8") + 10
+    image = cv2.imread(fr'{image_path}')
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     mask = cv2.inRange(image, lower, upper)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     cnts = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = cnts[0] if len(cnts) == 2 else cnts[1]
     cv2.fillPoly(mask, cnts, (255, 255, 255))
@@ -21,23 +21,28 @@ def extract(image_path, letter_color, shape_color) -> np.array:  # color = [R, G
     letter_image = cv2.resize(result, (28, 28))
 
 
-    shape_image = image
+
     #shape_image = cv2.GaussianBlur(shape_image, (5, 5), cv2.BORDER_DEFAULT)
     #shape_image = cv2.blur(shape_image, (2, 2))
-    shape_image = cv2.Canny(shape_image, 200, 200)
-    cnts = cv2.findContours(shape_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    lower = np.array(shape_color, dtype="uint8") - 15
+    upper = np.array(shape_color, dtype="uint8") + 15
+    shape_image = image
+    mask = cv2.inRange(shape_image, lower, upper)
+    gray = cv2.cvtColor(shape_image, cv2.COLOR_BGR2GRAY)
+    cnts = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = cnts[0] if len(cnts) == 2 else cnts[1]
-    cnts = max(cnts, key=cv2.contourArea)
-    shape_image = np.zeros_like(shape_image)
-    cv2.drawContours(shape_image, [cnts], 0, (255, 255, 255), cv2.FILLED)
-    shape_image = cv2.blur(shape_image, (2, 2))
+    cv2.fillPoly(mask, cnts, (255, 255, 255))
+    shape_image = cv2.bitwise_and(gray, gray, mask=mask)
+    shape_image = cv2.blur(shape_image, (25, 25))
     thresh, shape_image = cv2.threshold(shape_image, 90, 255, cv2.THRESH_BINARY)
+    shape_image = cv2.resize(shape_image, (98, 98))
+
 
     # result = cv2.resize(result, (200, 200))
 
 
     #TODO: Center image
-    shape_image = cv2.resize(shape_image, (28, 28))
+    shape_image = cv2.resize(shape_image, (98, 98))
     #return result  # np.array
     cv2.imshow("Image", shape_image)
     cv2.waitKey()

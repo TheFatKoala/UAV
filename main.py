@@ -1,6 +1,7 @@
 from extract import extract
 import tensorflow as tf
 import numpy as np
+import cv2
 
 # [206, 197, 205]
 
@@ -20,7 +21,8 @@ def letter_classify(img):
     print(f"Letter Model Prediction: Letter is {alphabet[np.argmax(prediction):np.argmax(prediction)+1]}")
 
 def shape_classify(img):
-    img = np.reshape(img, (1, 28, 28, 1))
+    img = np.reshape(img, (1, 98, 98, 1))
+    img = np.repeat(img, 3, axis=3)
     classify_model = tf.keras.models.load_model(r'shape_classifier/shape_model')
     prediction = classify_model.predict(img)
     shape_labels = ["circle", "semicircle", "quartercircle", "triangle",
@@ -43,6 +45,12 @@ def test():
     letter_color = [245, 220, 154]
     shape_color = [206, 197, 205]
     letter, shape = extract(img_path, letter_color, shape_color)
+    #img_path = r"C:\Users\hi2kh\OneDrive\Documents\GitHub\Machine-Learning\shape_data\shapes\circle.png" #
+    #shape = cv2.imread(fr'{img_path}') #
+    #shape = cv2.resize(shape, (98, 98)) #
+    #shape = cv2.cvtColor(shape, cv2.COLOR_BGR2RGB) #
+    #shape = cv2.cvtColor(shape, cv2.COLOR_BGR2GRAY) #
+    print(shape.shape)
     letter_classify(letter)
     shape_classify(shape)
 
