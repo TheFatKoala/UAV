@@ -49,6 +49,19 @@ def extract(image_path, letter_color, shape_color) -> np.array:  # color = [R, G
     cv2.destroyAllWindows()
     return letter_image, shape_image
 
-
+def classify_extract(image_path, color):
+    lower = np.array(color, dtype="uint8") - 10
+    upper = np.array(color, dtype="uint8") + 10
+    image = cv2.imread(fr'{image_path}')
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    mask = cv2.inRange(image, lower, upper)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    cnts = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cnts = cnts[0] if len(cnts) == 2 else cnts[1]
+    cv2.fillPoly(mask, cnts, (255, 255, 255))
+    result = cv2.bitwise_and(gray, gray, mask=mask)
+    thresh, result = cv2.threshold(result, 90, 255, cv2.THRESH_BINARY)
+    result = cv2.resize(result, (28, 28))
+    return result
 #extract([245, 220, 154])  # letter
 #extract([206, 197, 205])  # shape
