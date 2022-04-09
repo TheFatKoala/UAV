@@ -5,12 +5,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 
 # https://www.kaggle.com/smeschke/four-shapes
-letter_df = pd.read_csv(r"C:/Users/hi2kh/Documents/GitHub/Machine-Learning/letter_classifier/letter_data.csv",
+letter_df = pd.read_csv(r"C:\Users\hi2kh\OneDrive\Documents\GitHub\Machine-Learning\letter_classifier\letter_data.csv",
                  names=[str(i) for i in range(785)])
 
 letter_df['0'] = 0  # assign label of letter_df to 0
 
-shape_df = pd.read_csv(r"C:/Users/hi2kh/Documents/GitHub/Machine-Learning/classify/shape_data.csv",
+shape_df = pd.read_csv(r"C:\Users\hi2kh\OneDrive\Documents\GitHub\Machine-Learning\shape_data\shape_data.csv",
                        names=[str(i) for i in range(785)])
 
 shape_df['0'] = 1  # assign label of shape_df to 1
@@ -38,7 +38,6 @@ x_test[x_test > 0] = 1.0  # changes grayscale to binary
 
 y_train = np.reshape(y_train, (-1, 2))  # one hot encoding, [1, 0] is letter, [0, 1] is shape
 y_test = np.reshape(y_test, (-1, 2))
-
 
 inputs = tf.keras.Input(shape=(28, 28, 1))
 x = tf.keras.layers.Conv2D(3, 3, activation="relu")(inputs)

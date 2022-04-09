@@ -3,12 +3,11 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
-from scipy import ndimage
-import random
+
 
 # https://www.kaggle.com/sachinpatel21/az-handwritten-alphabets-in-csv-format/code
 
-df = pd.read_csv(r"C:\Users\hi2kh\Documents\GitHub\Machine-Learning\letter_classifier\letter_data.csv",
+df = pd.read_csv(r"C:\Users\hi2kh\OneDrive\Documents\GitHub\Machine-Learning\letter_classifier\letter_data.csv",
                  names=[str(i) for i in range(785)])
 
 x_train, x_test, y_train, y_test = train_test_split(df.drop(columns="0"), df["0"], test_size=0.16,
@@ -28,14 +27,6 @@ y_test = y_test.to_numpy()
 
 x_train = np.reshape(x_train, (-1, 28, 28)) / 255
 x_test = np.reshape(x_test, (-1, 28, 28)) / 255
-
-for i in range(np.size(x_train, axis=0)):
-    rotation = random.random() * 360
-    x_train[i] = ndimage.rotate(x_train[i], rotation, reshape=False)
-
-for i in range(np.size(x_test, axis=0)):
-    rotation = random.random() * 360
-    x_test[i] = ndimage.rotate(x_test[i], rotation, reshape=False)
 
 x_train[x_train > 0] = 1.0  # changes grayscale to binary (black and white)
 x_test[x_test > 0] = 1.0  # changes grayscale to binary

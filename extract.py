@@ -44,7 +44,7 @@ def extract(image_path, letter_color, shape_color) -> np.array:  # color = [R, G
     #TODO: Center image
     shape_image = cv2.resize(shape_image, (98, 98))
     #return result  # np.array
-    cv2.imshow("Image", letter_image)
+    cv2.imshow("Image", shape_image)
     cv2.waitKey()
     cv2.destroyAllWindows()
     return letter_image, shape_image
